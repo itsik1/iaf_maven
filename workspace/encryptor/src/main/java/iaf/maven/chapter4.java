@@ -15,15 +15,11 @@ import java.util.Arrays;
 import java.util.Scanner;
 
 public class chapter4 {
-	/**
-	 * Hello world!
-	 *
-	 */
 
 	int choice;//
-	public chapter4(int itterations)
-	{
-	}
+//	public chapter4(int itterations)
+//	{
+//	}
 	public chapter4() {
 		System.out.println("Please choose, encryption(1) or description(2)");
 		@SuppressWarnings("resource")
@@ -87,9 +83,30 @@ public class chapter4 {
 			in = new FileInputStream(path_input_name);
 			out = new FileOutputStream(file_output);
 			byte c[] = new byte[1];
-
-			while (in.read(c) != -1) {
-				out.write(c[0]+j*key);
+			System.out.println("choose which algorithm: 1 for XOR, 2 for Multipacation");
+			Scanner sc = new Scanner(System.in);
+			int choice = sc.nextInt();
+			switch (choice) {
+			case 1:
+				while (in.read(c) != -1) {
+					out.write(c[0]^key);
+				}
+				
+				break;
+			case 2:
+				if(j == 1)//encryptions
+				{
+					while (in.read(c) != -1) {
+						out.write((byte)(c[0]*key));
+					}
+				}
+				else
+				{
+					
+				}
+				break;
+			default:
+				break;
 			}
 			in.close();
 			out.close();
