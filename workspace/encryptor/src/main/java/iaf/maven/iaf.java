@@ -79,22 +79,36 @@ public class iaf {
 	}
 	private void workWithFile(int key, String file,String location,  String path, int j) {
 		try {
+//			if(location != "")
+//				path = location+ "\"+path;
 			BufferedWriter bw = new BufferedWriter(new FileWriter(file));
 			String s = "",writed="";
 //			System.out.println("writed: "+writed);
 			if(location != "")
 				path = location+"/"+path;
+			BufferedReader br = new BufferedReader(new FileReader(path));
 			byte[] fileByte = Files.readAllBytes(new File(path).toPath());//Files.readAllBytes(Paths.get(location,path));;
+			String s2 = br.readLine();
+			while((s = br.readLine())!=null)
+				s2 += "\n"+s;
+			if(s2== null)
+				s2 = "";
+//			s2 = br.toString();
+			System.out.println("s2: " + s2+ "  length:"+s2.length());
 //			System.out.println("key: "+ key+ "\t"+ fileByte[0]);
 			System.out.println("1: "+Arrays.toString(fileByte));
+			fileByte = s2.getBytes();
+			System.out.println("1.1"+Arrays.toString(fileByte));
 			for (int i = 0; i < fileByte.length; i++) 
 				fileByte[i] +=j*key;
-			System.out.println("2: "+Arrays.toString(fileByte)+ " length: "+fileByte.length+"\n\n");
+			System.out.println("2: "+Arrays.toString(fileByte)+ " length: "+fileByte.length);
+//			System.out.println();
 			String write =  new String(fileByte);//, 0, fileByte.length, "UTF-8");
-			System.out.println("workWithFile: "+ write);
+			System.out.println("workWithFile: "+ write+"length:"+ write.length()/*+"\n\n"*/);
+			System.out.println("Arrays.toString(write.getBytes()): "+Arrays.toString(write.getBytes())+"\n\n\n");
 			bw.write(write);//System.out.println("here writes!!!!!!!!!!!!!!!!!\nwrite\n!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
 			bw.close();
-
+			br.close();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
