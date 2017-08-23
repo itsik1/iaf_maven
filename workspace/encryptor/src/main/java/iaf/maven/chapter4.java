@@ -1,9 +1,5 @@
 package iaf.maven;
 
-/**
- * Hello world!
- *
- */
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
@@ -18,15 +14,17 @@ import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.Scanner;
 
-public class iaf {
+public class chapter4 {
+	/**
+	 * Hello world!
+	 *
+	 */
+
 	int choice;//
-	public iaf(int itterations)
+	public chapter4(int itterations)
 	{
-//		for (int i = 0; i < itterations; i++) {
-//			testEncryptions();
-//		}
 	}
-	public iaf() {
+	public chapter4() {
 		System.out.println("Please choose, encryption(1) or description(2)");
 		@SuppressWarnings("resource")
 		Scanner sc = new Scanner(System.in);
@@ -109,5 +107,6 @@ public class iaf {
 	}
 
 }
+
 
 

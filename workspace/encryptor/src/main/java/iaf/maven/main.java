@@ -1,8 +1,8 @@
 package iaf.maven;
 
 public class main {
-	public main() {
+	
+	public static void main(String[] args) {
 		new iaf();
 	}
-
 }
