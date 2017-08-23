@@ -6,6 +6,7 @@ package iaf.maven;
  */
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
@@ -79,21 +80,18 @@ public class iaf {
 	private void workWithFile(int key, String file,String location,  String path, int j) {
 		try {
 			BufferedWriter bw = new BufferedWriter(new FileWriter(file));
-			BufferedReader br = new BufferedReader(new FileReader(path));
-			String s = "";
-			System.out.println("S start:");
-			while((s=br.readLine())!=null)
-				System.out.println(s);
-			System.out.println("S end\n");
-			byte[] fileByte = Files.readAllBytes(Paths.get(location,path));//path));
-			System.out.println("path: "+ path);
-//			System.out.println(Arrays.toString(fileByte)+"\n\nhere:\n\n");
+			String s = "",writed="";
+//			System.out.println("writed: "+writed);
+			if(location != "")
+				path = location+"/"+path;
+			byte[] fileByte = Files.readAllBytes(new File(path).toPath());//Files.readAllBytes(Paths.get(location,path));;
+//			System.out.println("key: "+ key+ "\t"+ fileByte[0]);
 			System.out.println("1: "+Arrays.toString(fileByte));
 			for (int i = 0; i < fileByte.length; i++) 
 				fileByte[i] +=j*key;
-			System.out.println("2: "+Arrays.toString(fileByte)+"\n\n");
-			String write =  new String(fileByte, 0, fileByte.length, "UTF-8");
-//			System.out.println(write);
+			System.out.println("2: "+Arrays.toString(fileByte)+ " length: "+fileByte.length+"\n\n");
+			String write =  new String(fileByte);//, 0, fileByte.length, "UTF-8");
+			System.out.println("workWithFile: "+ write);
 			bw.write(write);//System.out.println("here writes!!!!!!!!!!!!!!!!!\nwrite\n!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
 			bw.close();
 
@@ -103,8 +101,8 @@ public class iaf {
 		}
 
 	}
-	private  int randomKey() {
-		return (int) (Math.random()*1000);
+	private  byte randomKey() {
+		return (byte) (Math.random()*257);
 	}
 	//testing the project.
 	public void testEncryptions()
@@ -113,20 +111,19 @@ public class iaf {
 		String path = "test.txt";
 		String write="";
 		try {
-			FileWriter fw = new FileWriter(path);
-			BufferedWriter bw = new BufferedWriter(fw);
-			int lines = (int) (Math.random()*30);
-			for (int i = 0; i < lines; i++) {
-				int digits = (int) (Math.random()*30);
-				for (int j = 0; j < digits; j++) 
-					write += ""+ (char)(Math.random()*100);
-				write+="\n";
-			}
+			BufferedWriter bw = new BufferedWriter(new FileWriter(path));
+//			int lines =1;// (int) (Math.random()*30);
+//			for (int i = 0; i < lines; i++) {
+//				int digits = (int) (Math.random()*30);
+//				for (int j = 0; j < digits; j++) 
+//					write += ""+ (char)(Math.random()*100);
+//				write+="\n";
+//			}
+			write = "test now";
 //			System.out.println(write);
 			bw.write(write);
-			encryptions("",path);
 			bw.close();
-			fw.close();
+			encryptions("",path);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -137,16 +134,18 @@ public class iaf {
 			fr = new FileReader("test.txt_decrypted.encrypted");
 			@SuppressWarnings("resource")
 			BufferedReader br = new BufferedReader(fr);
-			String decrepted = "",s;
+			String decrepted =br.readLine(),s;
 			while((s=br.readLine())!=null)
-				decrepted+=s+"\n";
+				decrepted+="\n"+s;
+			if(decrepted == null)
+				decrepted = "";
 			if(decrepted.equals(write))
 			{
 				System.out.println("the two are equal, encryption + description succeeded!!");
 			}
 			else
 			{
-				System.out.println("the two aint equal:\ndecrepted:\n"+decrepted+"\nwrite:\n"+write+"\n\n"); 
+				System.out.println("the two aint equal:\ndecrepted:\n||"+decrepted+"||\nwrite:\n||"+write+"||\n\n"); 
 			}
 			br.close();
 			fr.close();
@@ -158,9 +157,9 @@ public class iaf {
 			e.printStackTrace();
 		}
 		try {
-			Files.delete(Paths.get("test.txt"));
 			Files.delete(Paths.get("test.txt.encrypted"));
 			Files.delete(Paths.get("test.txt_decrypted.encrypted"));
+			Files.delete(Paths.get("test.txt"));
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
