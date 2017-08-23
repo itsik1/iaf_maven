@@ -16,7 +16,7 @@ import java.util.Arrays;
 import java.util.Scanner;
 
 public class iaf {
-	int choice;
+	int choice;//
 	public iaf(int itterations)
 	{
 		for (int i = 0; i < itterations; i++) {
